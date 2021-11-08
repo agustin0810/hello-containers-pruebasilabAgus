@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agus-deployment
+  namespace: default
+  labels:
+     app: agus-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agus-deployment
+  template:
+    metadata:
+      labels:
+        app: agus-deployment
+    spec:
+      containers:
+      - name: agus-deployment
+        image: us.icr.io/agustin-ilab/<image>:<tag>
+        ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agus-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: agus-deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+    name: agus-route
+    namespace: default
+spec:
+    to:
+        kind: Service
+        name: agus-service
