@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: agus-deployment
-        image: us.icr.io/agustin-ilab/<image>:<tag>
+        image: us.icr.io/default/<image>:<tag>
         ports:
           - containerPort: 8080
 ---
